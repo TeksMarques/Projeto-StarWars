@@ -64,7 +64,8 @@ function StarWarsProvider({ children }) {
         getQuantityForm,
         Filtro }),
     // eslint-disable-next-line function-paren-newline
-    [planetsList, inputFilter, column, quantity, quantityForm]);
+    [planetsList, inputFilter, column, quantity, quantityForm],
+  );
   return (
     <StarWarsContext.Provider value={ planets }>
       {children}
