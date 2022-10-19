@@ -21,19 +21,20 @@ function StarWarsProvider({ children }) {
     setQuantityForm(value);
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const Filtro = () => {
     if (quantityForm === 'maior que') {
-      const final = planetsList.filter((e) => +e[column] > +quantity);
-      getPlanetsList(final);
+      const final = planetsList.filter((event) => +event[column] > +quantity);
+      setPlanetsList(final);
     }
+
     if (quantityForm === 'menor que') {
-      const final = planetsList.filter((e) => +e[column] < +quantity);
-      getPlanetsList(final);
+      const final = planetsList.filter((event) => +event[column] < +quantity);
+      setPlanetsList(final);
     }
-    if (quantityForm === 'igual a') {
-      const final = planetsList.filter((e) => +e[column] === +quantity);
-      getPlanetsList(final);
+
+    if (quantityForm === 'igual A') {
+      const final = planetsList.filter((event) => +event[column] === +quantity);
+      setPlanetsList(final);
     }
   };
 
@@ -64,7 +65,7 @@ function StarWarsProvider({ children }) {
         getQuantityForm,
         Filtro }),
     // eslint-disable-next-line function-paren-newline
-    [planetsList, inputFilter, column, quantity, quantityForm, Filtro],
+    [planetsList, inputFilter, column, quantity, quantityForm],
   );
   return (
     <StarWarsContext.Provider value={ planets }>
