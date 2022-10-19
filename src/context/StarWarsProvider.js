@@ -3,19 +3,25 @@ import PropTypes from 'prop-types';
 import StarWarsContext from './StarWarsContext';
 
 function StarWarsProvider({ children }) {
-  const [planetsList, setPlanetsList] = useState([]);
+  const [planetsList, getPlanetsList] = useState([]);
+  const [inputFilter, getInputFilter] = useState([]);
 
   useEffect(() => {
     const Api = async () => {
       const url = await fetch('https://swapi.dev/api/planets');
       const { results } = await url.json();
       const final = results.filter((e) => delete e.residents);
-      setPlanetsList(final);
+      getPlanetsList(final);
     };
     Api();
   }, []);
 
-  const planets = useMemo(() => ({ planetsList }), [planetsList]);
+  const handleInputFilter = ({ target: { value } }) => {
+    getInputFilter(value);
+  };
+
+  const planets = useMemo(() => (
+    { planetsList, inputFilter, handleInputFilter }), [planetsList, inputFilter]);
   return (
     <StarWarsContext.Provider value={ planets }>
       {children}
