@@ -17,6 +17,7 @@ function Filters() {
     <form>
       <input
         type="text"
+        placeholder="Digite o Planeta"
         name="input-text"
         value={ inputFilter }
         onChange={ handleInputFilter }
