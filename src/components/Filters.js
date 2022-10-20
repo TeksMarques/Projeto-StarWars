@@ -1,13 +1,6 @@
 import { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
-const OPTIONS = [
-  'population',
-  'orbital_period',
-  'diameter',
-  'rotation_period',
-  'surface_water',
-];
 function Filters() {
   const { inputFilter,
     handleInputFilter,
@@ -18,6 +11,7 @@ function Filters() {
     column,
     columns,
     Filtro,
+    optionsNumerics,
   } = useContext(StarWarsContext);
   return (
     <form>
@@ -33,7 +27,7 @@ function Filters() {
         value={ column }
         onChange={ columns }
       >
-        {OPTIONS.map((e) => (
+        {optionsNumerics.map((e) => (
           <option key={ e } value={ e }>
             {e}
           </option>
