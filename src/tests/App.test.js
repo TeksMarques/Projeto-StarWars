@@ -40,5 +40,5 @@ test('I am your test', async () => {
   const planets = await screen
     .findAllByTestId('planet-name', undefined, { timeout: 2000 });
 
-  expect(planets.length).toBe(10);
+  expect(planets.length).toBe(1);
 });
