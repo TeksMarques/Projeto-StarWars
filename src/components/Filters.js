@@ -12,6 +12,7 @@ function Filters() {
     columns,
     Filtro,
     optionsNumerics,
+    removeAllFilters,
   } = useContext(StarWarsContext);
   return (
     <form>
@@ -54,6 +55,14 @@ function Filters() {
 
       <button type="button" data-testid="button-filter" onClick={ Filtro }>
         Filtrar
+      </button>
+
+      <button
+        type="button"
+        data-testid="button-remove-filters"
+        onClick={ removeAllFilters }
+      >
+        Limpar filtros
       </button>
     </form>
   );

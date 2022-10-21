@@ -12,6 +12,7 @@ const options = [
 
 function StarWarsProvider({ children }) {
   const [planetsList, getPlanetsList] = useState([]);
+  const [planetFiltro, getplanetFilterLister] = useState([]);
   const [inputFilter, getInputFilter] = useState('');
   const [column, setColumn] = useState('population');
   const [quantity, setQuantity] = useState(0);
@@ -58,12 +59,19 @@ function StarWarsProvider({ children }) {
       const { results } = await url.json();
       const final = results.filter((e) => delete e.residents);
       getPlanetsList(final);
+      getplanetFilterLister(final);
     };
     Api();
   }, []);
 
   const handleInputFilter = ({ target: { value } }) => {
     getInputFilter(value);
+  };
+
+  const removeAllFilters = () => {
+    setNumerics([]);
+    setOptionsNumerics(options);
+    getPlanetsList(planetFiltro);
   };
 
   const planets = useMemo(
@@ -80,6 +88,7 @@ function StarWarsProvider({ children }) {
         Filtro,
         filtersNumerics,
         optionsNumerics,
+        removeAllFilters,
       }),
     [planetsList, inputFilter, column, quantity, quantityForm, filtersNumerics],
   );

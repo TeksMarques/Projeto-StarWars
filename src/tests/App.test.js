@@ -2,43 +2,65 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
-
-test('I am your test', async () => {
-
-  render(<App />);
-
-  const input = screen.getAllByRole("textbox");
-  const select = screen.getAllByRole("combobox")
-  const placeholder = screen.getByPlaceholderText(/Digite o Planeta/i);
-
-
-  expect(placeholder).toBeInTheDocument();
-  expect(input.length).toBe(1);
-  expect(select.length).toBe(2);
-
-  const nameFilter = screen.getByTestId("name-filter");
-  const columnFilter = screen.getByTestId("column-filter");
-  const comparisonFilter = screen.getByTestId("comparison-filter");
-  const valueFilter = screen.getByTestId("value-filter");
-  const buttonFilter = screen.getByTestId("button-filter");
-
-  expect(nameFilter).toBeInTheDocument();
-  expect(columnFilter).toBeInTheDocument();
-  expect(comparisonFilter).toBeInTheDocument();
-  expect(valueFilter).toBeInTheDocument();
-  expect(buttonFilter).toBeInTheDocument();
-
-  const inputPlanet = screen.getByPlaceholderText('Digite o Planeta');
-  const buttonFiltro = screen.getByRole('button', {
-    name: /filtrar/i,
+describe('Testa o app', () => {
+  it('Verifica se é renderizado', () => {
+    render(<App />);
+    const input = screen.getAllByRole('textbox');
+    const select = screen.getAllByRole('combobox');
+    const button = screen.getByRole('button', {
+      name: /filtrar/i,
+    });
+    expect(input.length).toBe(1);
+    expect(select.length).toBe(2);
+    expect(button).toBeInTheDocument();
   });
+  it('Verifica o filtro', async () => {
+    render(<App />);
 
-  expect(inputPlanet).toBeInTheDocument();
-  userEvent.type(inputPlanet, 'Tatooine');
-  userEvent.click(buttonFiltro);
+    const tatooine = await screen.findByText(/Tatooine/i, {}, { timeout: 15000 });
+    const planet = screen.getByPlaceholderText('Digite o Planeta');
+    const valueFilter = screen.getByTestId('value-filter');
+    const columnFilter = screen.getByTestId('column-filter');
+    const comparisonFilter = screen.getByTestId('comparison-filter');
+    const buttonFilter = screen.getByRole('button', {
+      name: /filtrar/i,
+    });
 
-  const planets = await screen
-    .findAllByTestId('planet-name', undefined, { timeout: 2000 });
+    expect(planet).toBeInTheDocument();
+    expect(valueFilter).toBeInTheDocument();
+    expect(columnFilter).toBeInTheDocument();
+    expect(tatooine).toBeInTheDocument();
 
-  expect(planets.length).toBe(1);
+
+    userEvent.type(planet, 'Dagobah');
+    userEvent.selectOptions(columnFilter, 'population');
+    userEvent.selectOptions(comparisonFilter, 'maior que');
+    userEvent.type(valueFilter, '0');
+    userEvent.click(buttonFilter);
+    userEvent.selectOptions(comparisonFilter, 'menor que');
+    userEvent.click(buttonFilter);
+    userEvent.selectOptions(comparisonFilter, 'igual a');
+    userEvent.click(buttonFilter);
+
+  });
+  it('Verifica limpa filtros', () => {
+    render(<App />);
+
+    const buttonRemoveAll = screen.getByTestId("button-remove-filters");
+    const buttonAllRemove = screen.getByRole('button', {
+      name: /Limpar filtros/i,
+    });
+
+    expect(buttonRemoveAll).toHaveAttribute('type', 'button');
+    userEvent.click(buttonAllRemove);
+
+    const inputPlanet = screen.getByPlaceholderText('Digite o Planeta');
+    const buttonFiltro = screen.getByRole('button', {
+      name: /filtrar/i,
+    });
+
+    expect(inputPlanet).toBeInTheDocument();
+    userEvent.type(inputPlanet, 'Tatooine');
+    userEvent.click(buttonFiltro);
+  });
 });

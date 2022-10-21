@@ -7,7 +7,7 @@ function Table() {
     <main>
       <table>
         <thead>
-          <tr>
+          <tr data-testid="header">
             <th>Name</th>
             <th>Rotation_period</th>
             <th>Orbital_period</th>
@@ -23,7 +23,7 @@ function Table() {
             <th>URL</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody data-testid="infos">
           {planetsList.filter((e) => e.name.includes(inputFilter))
             .map((e) => (
               <tr key={ e.name }>

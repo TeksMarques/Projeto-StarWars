@@ -9,7 +9,7 @@ function FilterList() {
         filtersNumerics.map(({ column, comparison, value }, index) => (
           <li data-testid="filter" key={ index }>
             {`${column} ${comparison} ${value}`}
-            <button type="button">
+            <button type="button" data-testid="button-remove">
               Remover
             </button>
           </li>
